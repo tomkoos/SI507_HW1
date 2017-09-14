@@ -51,29 +51,24 @@ class Test_Card(unittest.TestCase):
                          "Test: Card() initialize the value of Card.rank_num"
                          "to 2")
 
-        card = Card(1, 5)
-        self.assertEqual(card.suit, 'Clubs',
-                         "Test: Card(face = 1), Card.suit should be 'Clubs'")
-        self.assertEqual(card.rank, 5,
-                         "Test: Card(rank = 5), Card.suit should be 5")
-        self.assertEqual(card.rank_num, 5,
-                         "Test: Card(rank = 5), Card.rank_num should be 5")
-
-        card = Card(2, 12)
-        self.assertEqual(card.suit, 'Hearts',
-                         "Test: Card(face = 2), Card.suit should be Hearts")
-        self.assertEqual(card.rank, 'Queen',
-                         "Test: Card(rank = 12), Card.suit should be 'Queen'")
-        self.assertEqual(card.rank_num, 12,
-                         "Test: Card(rank = 12), Card.rank_num should be 12")
-
-        card = Card(3, 1)
-        self.assertEqual(card.suit, 'Spades',
-                         "Test: Card(face = 3), Card.suit should be 'Spades'")
-        self.assertEqual(card.rank, 'Ace',
-                         "Test: Card(rank = 1), Card.suit should be 'Ace'")
-        self.assertEqual(card.rank_num, 1,
-                         "Test: Card(rank = 1), Card.rank_num should be 1")
+        SuitNumToSuit = {0: 'Diamonds', 1: 'Clubs', 2: 'Hearts', 3: 'Spades'}
+        faces = [(1, 'Ace'), (11, 'Jack'), (12, 'Queen'), (13, 'King')]
+        RankNumToRank = dict([(x, x) for x in range(2, 14)] + faces)
+        for suit_num in range(4):
+            for rank_num in range(1, 14):
+                card = Card(suit_num, rank_num)
+                self.assertEqual(card.suit, SuitNumToSuit[suit_num],
+                                 "Test: Card(suit = {}, rank_num = {}), "
+                                 "Card.suit should be {}".format
+                                 (suit_num, rank_num, SuitNumToSuit[suit_num]))
+                self.assertEqual(card.rank, RankNumToRank[rank_num],
+                                 "Test: Card(suit = {}, rank_num = {}), "
+                                 "Card.rank should be {}".format
+                                 (suit_num, rank_num, RankNumToRank[rank_num]))
+                self.assertEqual(card.rank_num, rank_num,
+                                 "Test: Card(suit = {}, rank_num = {}), "
+                                 "Card.rank_num should be {}".format
+                                 (suit_num, rank_num, rank_num))
 
     def test_print(self):
         card = Card(1, 8)
