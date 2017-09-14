@@ -22,6 +22,11 @@ make these tests well-organized and easy to read the output.
 ###########
 
 
+def setOfAllCards():
+    suit_names = ['Diamonds', 'Clubs', 'Hearts', 'Spades']
+    return set([(suit, rank) for suit in suit_names for rank in range(1, 14)])
+
+
 class Test_Card(unittest.TestCase):
     def test_private_variable(self):
         card = Card()
@@ -90,6 +95,13 @@ class Test_Deck(unittest.TestCase):
                               "of class list")
         self.assertEqual(len(deck.cards), 52,
                          "Test: Deck() should return an object of length 52")
+        AllCards = setOfAllCards()
+        for card in deck.cards:
+            cardTuple = (card.suit, card.rank_num)
+            self.assertIn(cardTuple, AllCards,
+                          "Test: Deck().cards should have all the cards "
+                          "with no duplicates")
+            AllCards.remove(cardTuple)
 
     def test_pop_card(self):
         deck = Deck()
@@ -122,15 +134,50 @@ class Test_Deck(unittest.TestCase):
         for i in range(52):
             deck.pop_card()
         self.assertEqual(not deck.cards, True,
-                         "Test: should be able to pop_card() 52 times")
+                         "Test: should be able to pop_card() 52 times "
+                         "when a deck has 52 cards")
 
     def test_shuffle(self):
+        # Test for full deck
+        sortedDeck = Deck()
         deck = Deck()
+        random.seed(0)
+        deck.shuffle()
         self.assertEqual(deck.shuffle(), None,
                          "Test: Deck.shuffle() should return nothing (None)")
         self.assertEqual(len(deck.cards), 52,
                          "Test: after shuffling a deck, "
                          "deck size should not change, in this case 52")
+        AllCards = setOfAllCards()
+        for card in deck.cards:
+            cardTuple = (card.suit, card.rank_num)
+            self.assertIn(cardTuple, AllCards,
+                          "Test: Deck().cards should have all the cards "
+                          "with no duplicates")
+            AllCards.remove(cardTuple)
+
+        flag = False
+        for i in range(len(deck.cards)):
+            if (sortedDeck.cards[i].__str__() != deck.cards[i].__str__()):
+                flag = True
+                break
+        self.assertTrue(flag, "Test: Deck.shuffle() should randomly shuffled "
+                        "the deck, not just do nothing")
+
+        # Test for partial deck
+        sortedDeck = Deck()
+        sortedDeck.pop_card(5)
+        deck = Deck()
+        deck.pop_card(5)
+        random.seed(0)
+        deck.shuffle()
+        flag = False
+        for i in range(len(deck.cards)):
+            if (sortedDeck.cards[i].__str__() != deck.cards[i].__str__()):
+                flag = True
+                break
+        self.assertTrue(flag, "Test: Deck.shuffle() should randomly shuffled "
+                        "the deck, not just do nothing")
 
     def test_replace_card(self):
         deck = Deck()
@@ -157,24 +204,26 @@ class Test_Deck(unittest.TestCase):
                          "Test: the popped card should no longer "
                          "be in the deck")
         deck.replace_card(popped_card)
+        self.assertEqual(len(deck.cards), 52,
+                         "Test: start with a partial deck. "
+                         "replacing the card that's not in "
+                         "a deck should increase deck size by one")
         listOfCards = [card.__str__() for card in deck.cards]
         self.assertIn(popped_card.__str__(), listOfCards,
                       "Test: replacing the card that is not in the deck, "
                       "the card should be added back to the deck")
 
     def test_sort_cards(self):
+        # Test for full deck
         sortedDeck = Deck()
         deck = Deck()
         deck.shuffle()
         deck.sort_cards()
         for i in range(52):
-            self.assertEqual(deck.cards[i].rank, sortedDeck.cards[i].rank,
-                             "Test: after sorting, the cards' rank should be "
+            self.assertEqual(deck.cards[i].__str__(), sortedDeck.cards[i].__str__(),
+                             "Test: after sorting, the cards should be "
                              "in a correct order")
-            self.assertEqual(deck.cards[i].suit, sortedDeck.cards[i].suit,
-                             "Test: after sorting, the cards' suit should be "
-                             "in a correct order")
-
+        # Test for partial deck
         deck = Deck()
         for i in range(10):
             deck.shuffle()
@@ -187,10 +236,10 @@ class Test_Deck(unittest.TestCase):
     def test_deal_hand(self):
         deck = Deck()
         hand = deck.deal_hand(hand_size=5)
-        self.assertIsInstance(hand1, list,
+        self.assertIsInstance(hand, list,
                               "Test: Deck().deal_hand should return an object "
                               "of class list")
-        self.assertEqual(len(hand1), 5,
+        self.assertEqual(len(hand), 5,
                          "Test: Deck().deal_hand should return an object of "
                          "length equal to a value of hand_size")
         self.assertEqual(len(deck.cards), 47,
@@ -200,10 +249,10 @@ class Test_Deck(unittest.TestCase):
 
         deck = Deck()
         hand = deck.deal_hand(hand_size=52)
-        self.assertIsInstance(hand1, list,
+        self.assertIsInstance(hand, list,
                               "Test: Deck().deal_hand should return an object "
                               "of class list")
-        self.assertEqual(len(hand1), 52,
+        self.assertEqual(len(hand), 52,
                          "Test: Deck().deal_hand should return an object of "
                          "length equal to a value of hand_size")
         self.assertEqual(len(deck.cards), 0,
