@@ -73,17 +73,13 @@ class Deck(object):
 
 
 # A silly function, but it does kind of work to play a game.
-'''
-Because it's written in a silly way, there are a bunch of edgecases
-of sorts.
-'''
+''' Because it's written in a silly way, there are a bunch of edgecases
+of sorts.'''
 
 
 def play_war_game(testing=False):
-    '''
-    Call this with testing = True and it won't print out all the game
-    mechanics, which makes it easier to see tests.
-    '''
+    '''Call this with testing = True and it won't print out all the game
+    mechanics, which makes it easier to see tests.'''
     player1 = Deck()
     player2 = Deck()
 
@@ -149,14 +145,10 @@ if __name__ == "__main__":
         s.open_url_for_track()
 
 # NOTE: if you see a message like so, running this on a Mac computer:
-'''
-0:94: execution error:
+'''0:94: execution error:
 "https://itunes.apple.com/us/album/bears-adventure/id495954957?i=495955054&uo=4"
-doesn’t understand the “open location” message. (-1708)
-'''
-'''
-That's an Apple-related error but will not cause you a problem.
-Don't worry about it.
-'''
+doesn’t understand the “open location” message. (-1708)'''
+'''That's an Apple-related error but will not cause you a problem.
+Don't worry about it.'''
 
 # DO NOT CHANGE CODE ABOVE THIS LINE #
