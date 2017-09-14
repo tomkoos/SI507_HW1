@@ -79,7 +79,7 @@ class Test_Card(unittest.TestCase):
         for suit_num in range(4):
             for rank_num in range(1, 14):
                 card = Card(suit_num, rank_num)
-                self.assertEqual(card.__str__(), '{} of {}'
+                self.assertEqual(str(card), '{} of {}'
                                  .format(self.NumToRank[rank_num],
                                          self.NumToSuit[suit_num]),
                                  "Test: Card(suit = {}, rank = {}), "
@@ -90,20 +90,30 @@ class Test_Card(unittest.TestCase):
 
 
 class Test_Deck(unittest.TestCase):
+    def setUp(self):
+        self.fullDeck = Deck()
+
     def test_init(self):
-        deck = Deck()
-        self.assertIsInstance(deck.cards, list,
+        self.assertIsInstance(self.fullDeck.cards, list,
                               "Test: Deck() should return an object "
                               "of class list")
-        self.assertEqual(len(deck.cards), 52,
+        self.assertEqual(len(self.fullDeck.cards), 52,
                          "Test: Deck() should return an object of length 52")
         AllCards = setOfAllCards()
-        for card in deck.cards:
+        for card in self.fullDeck.cards:
             cardTuple = (card.suit, card.rank_num)
             self.assertIn(cardTuple, AllCards,
                           "Test: Deck().cards should have all the cards "
                           "with no duplicates")
             AllCards.remove(cardTuple)
+
+    def test_print(self):
+        correctOutput = '\n'.join(('{} of {}'.format(card.rank, card.suit)
+                                   for card in self.fullDeck.cards))
+        self.assertEqual(str(self.fullDeck), correctOutput,
+                         "Test: print method for Deck() should output "
+                         "correct lines of strings i.e. "
+                         "'Ace of Diamonds\\n2 of Diamonds\\n...'")
 
     def test_pop_card(self):
         deck = Deck()
@@ -141,7 +151,7 @@ class Test_Deck(unittest.TestCase):
 
     def test_shuffle(self):
         # Test for full deck
-        sortedDeck = Deck()
+        sortedDeck = self.fullDeck
         deck = Deck()
         random.seed(0)
         deck.shuffle()
@@ -160,7 +170,7 @@ class Test_Deck(unittest.TestCase):
 
         flag = False
         for i in range(len(deck.cards)):
-            if (sortedDeck.cards[i].__str__() != deck.cards[i].__str__()):
+            if (str(sortedDeck.cards[i]) != str(deck.cards[i])):
                 flag = True
                 break
         self.assertTrue(flag, "Test: Deck.shuffle() should randomly shuffled "
@@ -175,7 +185,7 @@ class Test_Deck(unittest.TestCase):
         deck.shuffle()
         flag = False
         for i in range(len(deck.cards)):
-            if (sortedDeck.cards[i].__str__() != deck.cards[i].__str__()):
+            if (str(sortedDeck.cards[i]) != str(deck.cards[i])):
                 flag = True
                 break
         self.assertTrue(flag, "Test: Deck.shuffle() should randomly shuffled "
@@ -201,8 +211,8 @@ class Test_Deck(unittest.TestCase):
 
         deck = Deck()
         popped_card = deck.pop_card()
-        listOfCards = [card.__str__() for card in deck.cards]
-        self.assertNotIn(popped_card.__str__(), listOfCards,
+        listOfCards = [str(card) for card in deck.cards]
+        self.assertNotIn(str(popped_card), listOfCards,
                          "Test: the popped card should no longer "
                          "be in the deck")
         deck.replace_card(popped_card)
@@ -210,8 +220,8 @@ class Test_Deck(unittest.TestCase):
                          "Test: start with a partial deck. "
                          "replacing the card that's not in "
                          "a deck should increase deck size by one")
-        listOfCards = [card.__str__() for card in deck.cards]
-        self.assertIn(popped_card.__str__(), listOfCards,
+        listOfCards = [str(card) for card in deck.cards]
+        self.assertIn(str(popped_card), listOfCards,
                       "Test: replacing the card that is not in the deck, "
                       "the card should be added back to the deck")
 
@@ -222,8 +232,7 @@ class Test_Deck(unittest.TestCase):
         deck.shuffle()
         deck.sort_cards()
         for i in range(52):
-            self.assertEqual(deck.cards[i].__str__(),
-                             sortedDeck.cards[i].__str__(),
+            self.assertEqual(str(deck.cards[i]), str(sortedDeck.cards[i]),
                              "Test: after sorting, the cards should be "
                              "in a correct order")
         # Test for partial deck

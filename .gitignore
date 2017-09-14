@@ -1,4 +1,4 @@
-__pycache__/
-vnv/
-HW1.sublime-project
-HW1.sublime-workspace
+HW1/__pycache__/
+HW1/vnv/
+*.sublime-project
+*.sublime-workspace
