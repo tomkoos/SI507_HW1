@@ -222,7 +222,8 @@ class Test_Deck(unittest.TestCase):
         deck.shuffle()
         deck.sort_cards()
         for i in range(52):
-            self.assertEqual(deck.cards[i].__str__(), sortedDeck.cards[i].__str__(),
+            self.assertEqual(deck.cards[i].__str__(),
+                             sortedDeck.cards[i].__str__(),
                              "Test: after sorting, the cards should be "
                              "in a correct order")
         # Test for partial deck
