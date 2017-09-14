@@ -28,6 +28,11 @@ def setOfAllCards():
 
 
 class Test_Card(unittest.TestCase):
+    def setUp(self):
+        self.NumToSuit = {0: 'Diamonds', 1: 'Clubs', 2: 'Hearts', 3: 'Spades'}
+        self.faces = [(1, 'Ace'), (11, 'Jack'), (12, 'Queen'), (13, 'King')]
+        self.NumToRank = dict([(x, x) for x in range(2, 14)] + self.faces)
+
     def test_private_variable(self):
         card = Card()
         self.assertEqual(
@@ -50,36 +55,38 @@ class Test_Card(unittest.TestCase):
         self.assertEqual(card.rank_num, 2,
                          "Test: Card() initialize the value of Card.rank_num"
                          "to 2")
-
-        SuitNumToSuit = {0: 'Diamonds', 1: 'Clubs', 2: 'Hearts', 3: 'Spades'}
-        faces = [(1, 'Ace'), (11, 'Jack'), (12, 'Queen'), (13, 'King')]
-        RankNumToRank = dict([(x, x) for x in range(2, 14)] + faces)
+        # Test initializion for all possible cards
         for suit_num in range(4):
             for rank_num in range(1, 14):
                 card = Card(suit_num, rank_num)
-                self.assertEqual(card.suit, SuitNumToSuit[suit_num],
+                self.assertEqual(card.suit, self.NumToSuit[suit_num],
                                  "Test: Card(suit = {}, rank_num = {}), "
-                                 "Card.suit should be {}".format
-                                 (suit_num, rank_num, SuitNumToSuit[suit_num]))
-                self.assertEqual(card.rank, RankNumToRank[rank_num],
+                                 "Card.suit should be {}"
+                                 .format(suit_num, rank_num,
+                                         self.NumToSuit[suit_num]))
+                self.assertEqual(card.rank, self.NumToRank[rank_num],
                                  "Test: Card(suit = {}, rank_num = {}), "
-                                 "Card.rank should be {}".format
-                                 (suit_num, rank_num, RankNumToRank[rank_num]))
+                                 "Card.rank should be {}"
+                                 .format(suit_num, rank_num,
+                                         self.NumToRank[rank_num]))
                 self.assertEqual(card.rank_num, rank_num,
                                  "Test: Card(suit = {}, rank_num = {}), "
-                                 "Card.rank_num should be {}".format
-                                 (suit_num, rank_num, rank_num))
+                                 "Card.rank_num should be {}"
+                                 .format(suit_num, rank_num, rank_num))
 
     def test_print(self):
-        card = Card(1, 8)
-        self.assertEqual(card.__str__(), '8 of Clubs',
-                         "Test: Card(face = 1, rank = 8), "
-                         "print method should output '8 of Clubs'")
-
-        card = Card(2, 13)
-        self.assertEqual(card.__str__(), 'King of Hearts',
-                         "Test: Card(face = 2, rank = 13), "
-                         "print method should output 'King of Hearts'")
+        # Test print method for all possible cards
+        for suit_num in range(4):
+            for rank_num in range(1, 14):
+                card = Card(suit_num, rank_num)
+                self.assertEqual(card.__str__(), '{} of {}'
+                                 .format(self.NumToRank[rank_num],
+                                         self.NumToSuit[suit_num]),
+                                 "Test: Card(suit = {}, rank = {}), "
+                                 "print method should output '{} of {}'"
+                                 .format(suit_num, rank_num,
+                                         self.NumToRank[rank_num],
+                                         self.NumToSuit[suit_num]))
 
 
 class Test_Deck(unittest.TestCase):
