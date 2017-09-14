@@ -1,5 +1,4 @@
-subl/
 __pycache__/
+vnv/
 HW1.sublime-project
 HW1.sublime-workspace
-.gitignore
