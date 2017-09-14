@@ -6,4 +6,4 @@ The project contains 5 main files:
 * The project's source code : SI507F17_project1_cards.py
 * Helper functions for the main code : helper_functions.py
 * The project's unittest code : SI507F17_project1_tests.py
-# Required modules for the project : requirements.txt
+* Required modules for the project : requirements.txt
