@@ -291,9 +291,9 @@ class Test_show_song(unittest.TestCase):
 
     def test_search(self):
         self.assertIn('Love', str(show_song('Love')),
-                        "Test: should be able to search for any search term, "
-                        "and the term should be part of the song's string "
-                        "representation")
+                      "Test: should be able to search for any search term, "
+                      "and the term should be part of the song's string "
+                      "representation")
 
 
 unittest.main(verbosity=2)
