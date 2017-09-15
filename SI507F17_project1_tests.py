@@ -253,7 +253,7 @@ class Test_Deck(unittest.TestCase):
                              "accordingly")
         except:
             self.assertTrue(False, "Test: should be able to deal number of "
-                            " cards less than or equal to deck size")
+                            "cards less than or equal to deck size")
         # Test for hand_size = deck size
         deck = Deck()
         try:
@@ -270,7 +270,7 @@ class Test_Deck(unittest.TestCase):
                              "accordingly")
         except:
             self.assertTrue(False, "Test: should be able to deal number of "
-                            " cards less than or equal to deck size")
+                            "cards less than or equal to deck size")
 
 
 class Test_play_war_game(unittest.TestCase):
