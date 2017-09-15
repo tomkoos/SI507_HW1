@@ -141,7 +141,8 @@ class Test_Deck(unittest.TestCase):
             deck.pop_card()
         self.assertEqual(not deck.cards, True,
                          "Test: should be able to pop_card() 52 times "
-                         "when a deck has 52 cards")
+                         "when a deck has 52 cards. After that, deck.cards "
+                         "should be empty")
 
     def test_shuffle(self):
         # Test for full deck
@@ -153,23 +154,10 @@ class Test_Deck(unittest.TestCase):
                          "Test: Deck.shuffle() should return nothing (None)")
         self.assertEqual(len(deck.cards), 52,
                          "Test: after shuffling a deck, "
-                         "deck size should not change, in this case 52")
-        AllCards = setOfAllCards()
-        for card in deck.cards:
-            cardTuple = (card.suit, card.rank_num)
-            self.assertIn(cardTuple, AllCards,
-                          "Test: Deck().cards should have all the cards "
-                          "with no duplicates")
-            AllCards.remove(cardTuple)
-
-        flag = False
-        for i in range(len(deck.cards)):
-            if (str(sortedDeck.cards[i]) != str(deck.cards[i])):
-                flag = True
-                break
-        self.assertTrue(flag, "Test: Deck.shuffle() should randomly shuffled "
-                        "the deck, not just do nothing")
-
+                         "deck size should not be affected")
+        self.assertNotEqual(str(sortedDeck), str(deck),
+                            "Test: Deck.shuffle() should randomly shuffled "
+                            "the deck, not just do nothing")
         # Test for partial deck
         sortedDeck = Deck()
         sortedDeck.pop_card(5)
@@ -177,13 +165,14 @@ class Test_Deck(unittest.TestCase):
         deck.pop_card(5)
         random.seed(0)
         deck.shuffle()
-        flag = False
-        for i in range(len(deck.cards)):
-            if (str(sortedDeck.cards[i]) != str(deck.cards[i])):
-                flag = True
-                break
-        self.assertTrue(flag, "Test: Deck.shuffle() should randomly shuffled "
-                        "the deck, not just do nothing")
+        self.assertEqual(deck.shuffle(), None,
+                         "Test: Deck.shuffle() should return nothing (None)")
+        self.assertEqual(len(deck.cards), 51,
+                         "Test: after shuffling a deck, "
+                         "deck size should not be affected")
+        self.assertNotEqual(str(sortedDeck), str(deck),
+                            "Test: Deck.shuffle() should randomly shuffled "
+                            "the deck, not just do nothing")
 
     def test_replace_card(self):
         deck = Deck()
@@ -225,19 +214,27 @@ class Test_Deck(unittest.TestCase):
         deck = Deck()
         deck.shuffle()
         deck.sort_cards()
-        for i in range(52):
-            self.assertEqual(str(deck.cards[i]), str(sortedDeck.cards[i]),
-                             "Test: after sorting, the cards should be "
-                             "in a correct order")
+        self.assertEqual(len(deck.cards), 52,
+                         "Test: after sorting the remaining cards, "
+                         "the deck size should not be affected")
+        self.assertEqual(str(deck), str(sortedDeck),
+                         "Test: after sorting, the cards should be "
+                         "in a correct order")
         # Test for partial deck
+        sortedDeck = Deck()
+        for i in range(10):
+            sortedDeck.pop_card()
         deck = Deck()
         for i in range(10):
-            deck.shuffle()
             deck.pop_card()
+        deck.shuffle()
         deck.sort_cards()
         self.assertEqual(len(deck.cards), 40,
                          "Test: after sorting the remaining cards, "
                          "the deck size should not be affected")
+        self.assertEqual(str(deck), str(sortedDeck),
+                         "Test: after sorting, the cards should be "
+                         "in a correct order")
 
     def test_deal_hand(self):
         deck = Deck()
@@ -293,8 +290,10 @@ class Test_show_song(unittest.TestCase):
                               "of class Song")
 
     def test_search(self):
-        self.assertTrue(show_song('Random'),
-                        "Test: should be able to search for any search term")
+        self.assertIn('Love', str(show_song('Love')),
+                        "Test: should be able to search for any search term, "
+                        "and the term should be part of the song's string "
+                        "representation")
 
 
 unittest.main(verbosity=2)
