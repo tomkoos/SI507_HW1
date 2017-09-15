@@ -237,40 +237,40 @@ class Test_Deck(unittest.TestCase):
                          "in a correct order")
 
     def test_deal_hand(self):
+        # Test for hand_size < deck size
         deck = Deck()
         try:
             hand = deck.deal_hand(hand_size=5)
             self.assertIsInstance(hand, list,
-                              "Test: Deck().deal_hand should return an object "
-                              "of class list")
+                                  "Test: Deck().deal_hand should return an "
+                                  "object of class list")
             self.assertEqual(len(hand), 5,
-                         "Test: Deck().deal_hand should return an object of "
-                         "length equal to a value of hand_size")
+                             "Test: Deck().deal_hand should return an object "
+                             "of length equal to a value of hand_size")
             self.assertEqual(len(deck.cards), 47,
-                         "Test: after dealing a hand, length of Deck().cards "
-                         "or the number of remaining cards should be changed "
-                         "accordingly")
+                             "Test: after dealing a hand, length of the "
+                             "number of remaining cards should be changed "
+                             "accordingly")
         except:
-            self.assertTrue(False, "Test: able to deal number of cards less "
-                            "than or equal to deck size")
-        
-
+            self.assertTrue(False, "Test: should be able to deal number of "
+                            " cards less than or equal to deck size")
+        # Test for hand_size = deck size
         deck = Deck()
         try:
             hand = deck.deal_hand(hand_size=52)
             self.assertIsInstance(hand, list,
-                                  "Test: Deck().deal_hand should return an object "
-                                  "of class list")
+                                  "Test: Deck().deal_hand should return an "
+                                  "object of class list")
             self.assertEqual(len(hand), 52,
-                             "Test: Deck().deal_hand should return an object of "
-                             "length equal to a value of hand_size")
+                             "Test: Deck().deal_hand should return an "
+                             "object of length equal to a value of hand_size")
             self.assertEqual(len(deck.cards), 0,
-                             "Test: after dealing a hand, length of Deck().cards "
-                             "or the number of remaining cards should be changed "
+                             "Test: after dealing a hand, length of the "
+                             "number of remaining cards should be changed "
                              "accordingly")
         except:
-            self.assertTrue(False, "Test: able to deal number of cards less "
-                            "than or equal to deck size")
+            self.assertTrue(False, "Test: should be able to deal number of "
+                            " cards less than or equal to deck size")
 
 
 class Test_play_war_game(unittest.TestCase):
