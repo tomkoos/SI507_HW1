@@ -19,7 +19,8 @@ class Song(object):
             self.track_url = None
 
     def __str__(self):
-        return "{} by {} on {} whose URL is {}".format(self.track, self.artist, self.album, self.track_url)
+        return "{} by {} on {} whose URL is {}".format(
+            self.track, self.artist, self.album, self.track_url)
 
     def __repr__(self):
         return "{} | Explicit: {}".format(self.track, self.explicit)
@@ -28,7 +29,8 @@ class Song(object):
         return len(self.album.split())
 
     def num_words_in_name_sans_determiners(self):
-        return len([x for x in self.album.split() if (x.lower() != "the") and (x.lower() != "a")])
+        return len([x for x in self.album.split()
+                    if (x.lower() != "the") and (x.lower() != "a")])
 
     def open_url_for_track(self):
         if self.track_url:
@@ -38,7 +40,8 @@ class Song(object):
 
 
 def random_song(list_of_song_objs):
-    '''Function to get a random song from a list of song objects and return an identifiable tuple about the song'''
+    '''Function to get a random song from a list of song objects and return
+    an identifiable tuple about the song'''
     song_picked = random.choice(list_of_song_objs)
     # just return track name and artist tuple for identification
     print(song_picked.track, song_picked.artist)
