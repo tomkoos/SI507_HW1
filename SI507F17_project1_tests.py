@@ -290,6 +290,15 @@ class Test_play_war_game(unittest.TestCase):
         self.assertIsInstance(play[2], int,
                               "Test: value of the third item in the tuple "
                               "should be int")
+        if play[1] > play[2]:
+            self.assertEqual(play[0], 'Player1', "Test: check the logic of "
+                             "the result")
+        elif play[1] < play[2]:
+            self.assertEqual(play[0], 'Player2', "Test: check the logic of "
+                             "the result")
+        else:
+            self.assertEqual(play[0], 'Tie', "Test: check the logic of "
+                             "the result")
 
 
 class Test_show_song(unittest.TestCase):
